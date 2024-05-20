@@ -2,6 +2,10 @@
 
 export default function RegistrationForm() {
   return (
-    <div>RegistrationForm</div>
+    <div>
+      <div>
+        <img src="https://i.ibb.co/whkCsCJ/shabujglobal-banner.png" alt="" />
+      </div>
+    </div>
   )
 }

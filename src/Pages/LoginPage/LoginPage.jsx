@@ -1,11 +1,11 @@
 import { useContext, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProviders";
 
 export const LoginPage = () => {
   const [register, setRegister] = useState(false);
-
   const { signIn, createUser, user, logOut } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleRegisterSubmit = async (event) => {
     event.preventDefault();
@@ -17,15 +17,13 @@ export const LoginPage = () => {
       const result = await createUser(email, password); // Assuming createUser is a function that returns a promise
       const loggedUser = result.user;
       console.log(loggedUser);
-      
 
-      // Navigate to dashboard after successful registration
-      Navigate('/dashboard');
+      navigate("/");
     } catch (error) {
-      console.error('Registration failed:', error);
+      console.error("Registration failed:", error);
     }
 
-    console.log('Register Form Data:', { name, email, password });
+    console.log("Register Form Data:", { name, email, password });
 
     // Reset form fields or perform further actions
     event.target.reset();
@@ -40,15 +38,14 @@ export const LoginPage = () => {
       const result = await signIn(email, password); // Assuming signIn is a function that returns a promise
       const user = result.user;
       console.log(user);
-   
 
-      // Navigate to dashboard after successful login
-      Navigate('/dashboard');
+      // Navigate to the main route after successful login
+      navigate("/");
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error("Login failed:", error);
     }
 
-    console.log('Login Form Data:', { email, password });
+    console.log("Login Form Data:", { email, password });
 
     // Reset form fields or perform further actions
     event.target.reset();
@@ -56,15 +53,17 @@ export const LoginPage = () => {
 
   const handleLogout = () => {
     logOut()
-    .then(() => {})
-    .catch(error => console.log(error))
+      .then(() => {})
+      .catch((error) => console.log(error));
   };
 
   return (
     <>
       {user ? (
         <div>
-          <p className="text-right">{user.email} <button onClick={handleLogout}>Logout</button></p>
+          <p className="text-right">
+            {user.email} <button onClick={handleLogout}>Logout</button>
+          </p>
         </div>
       ) : (
         <div>
