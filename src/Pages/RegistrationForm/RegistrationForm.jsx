@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IoIosCheckmark } from "react-icons/io";
 import { IoCaretDown } from "react-icons/io5";
-import "./RegistrationForm.css"
+
+
 export default function RegistrationForm() {
   const [checkboxes, setCheckboxes] = useState([
     { id: 1, label: "Nigeria", checked: false },
@@ -14,16 +15,56 @@ export default function RegistrationForm() {
   ]);
 
   const handleCheckboxChange = (id) => {
-    setCheckboxes((prevCheckboxes) => {
-      return prevCheckboxes.map((checkbox) => {
-        if (checkbox.id === id) {
-          return { ...checkbox, checked: !checkbox.checked };
-        }
-        return checkbox;
-      });
-    });
+    setCheckboxes((prevCheckboxes) =>
+      prevCheckboxes.map((checkbox) =>
+        checkbox.id === id ? { ...checkbox, checked: !checkbox.checked } : checkbox
+      )
+    );
   };
-  
+
+  const [selectedOption, setSelectedOption] = useState("Bangladesh");
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  const options = [
+    "Bangladesh",
+    "Nigeria",
+    "India",
+    "Nepal",
+    "Bhutan",
+    "Ghana",
+    "Sri Lanka",
+  ];
+
+  const handleOptionClick = (event, option) => {
+    event.stopPropagation();
+    setSelectedOption(option);
+    setIsOpen(false);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData.entries());
+    data.checkboxes = checkboxes.filter((checkbox) => checkbox.checked).map((checkbox) => checkbox.label);
+    data.country = selectedOption;
+    console.log("Form Data:", data);
+    // You can also display the data in the UI or handle it as needed
+  };
+
   return (
     <div className="w-full bg-gray-100 h-screen pt-10">
       <div className="bg-white w-[85%] mx-auto border-[1px] rounded-lg">
@@ -36,7 +77,7 @@ export default function RegistrationForm() {
           <p className="text-center text-3xl my-5">Registration Form</p>
         </div>
         <div>
-          <form className="bg-white p-6 m-2 space-y-6">
+          <form className="bg-white p-6 m-2 space-y-6" onSubmit={handleSubmit}>
             <div className="grid grid-cols-2 gap-4 text-black">
               <div>
                 <label htmlFor="firstName" className="block text-sm ">
@@ -194,29 +235,39 @@ export default function RegistrationForm() {
                   Country
                   <span className="ml-[2px] text-red-500 text-xs">*</span>
                 </label>
-                <div className="relative mt-1 ">
-                  <select
-                    id="country"
-                    name="country"
-                    className="block w-full appearance-none rounded-sm border border-gray-300 bg-white py-3 px-4 pr-10 text-sm focus:border-blue-500 focus:outline-none cursor-pointer"
-                    required
+                <div className="relative mt-1" ref={dropdownRef}>
+                  <button
+                    type="button"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      setIsOpen(!isOpen);
+                    }}
+                    className="w-full appearance-none rounded-sm border border-gray-300 bg-white py-3 px-4 pr-10 text-sm focus:border-blue-500 focus:outline-none cursor-pointer flex justify-between items-center"
                   >
-                    <option value="Bangladesh">Bangladesh</option>
-                    <option value="Nigeria">Nigeria</option>
-                    <option value="India">India</option>
-                    <option value="Nepal">Nepal</option>
-                    <option value="Bhutan">Bhutan</option>
-                    <option value="Ghana">Ghana</option>
-                    <option value="Sri Lanka">Sri Lanka</option>
-                  </select>
-                  <div className=" absolute inset-y-0 right-0 flex items-center px-2 ">
+                    {selectedOption}
                     <IoCaretDown className="text-gray-500 text-xs" />
-                  </div>
+                  </button>
+
+                  {isOpen && (
+                    <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-sm mt-1 max-h-60 overflow-auto">
+                      {options.map((option) => (
+                        <li
+                          key={option}
+                          onClick={(event) => handleOptionClick(event, option)}
+                          className="cursor-pointer py-2 px-4 hover:bg-[#392c70] hover:text-white"
+                        >
+                          {option}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               </div>
             </div>
             <div>
-              <p className="text-base font-bold text-black mb-2">Company Details</p>
+              <p className="text-base font-bold text-black mb-2">
+                Company Details
+              </p>
               <div className="grid grid-cols-7 gap-1 w-[50%]">
                 {checkboxes.map((checkbox) => (
                   <label
@@ -242,10 +293,10 @@ export default function RegistrationForm() {
               </div>
             </div>
 
-            <div className="flex items-center">
+            <div className="w-full items-center">
               <button
                 type="submit"
-                className="inline-flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#392c70] hover:bg-[#2c2257]"
+                className="inline-flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#392c70] hover:bg-[#2c2257] w-full"
               >
                 Submit
               </button>
