@@ -1,0 +1,5 @@
+/* CSS */
+select#country option:hover {
+    background-color: red; /* Change this to your desired hover color */
+  }
+  
