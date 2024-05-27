@@ -13,6 +13,9 @@ import Dashboard from './Pages/Dashboard/Dashboard';
 import PrivateRoute from './PrivateRoute/PrivateRoute';
 import RegistrationForm from './Pages/RegistrationForm/RegistrationForm';
 import Layout from './Layout/Layout';
+import NewApplication from './Pages/NewApplication/NewApplication';
+import ApplicationHistory from './Pages/ApplicationHistory/ApplicationHistory';
+import ApplicationInfo from './Pages/ApplicationInfo/ApplicationInfo';
 
 
 const router = createBrowserRouter([
@@ -33,12 +36,20 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <PrivateRoute><Dashboard/></PrivateRoute>,
-    // children: [
-    //   {
-    //     path: "/login",
-    //     element: <LoginPage/>
-    //   }
-    // ]
+    children: [
+      {
+        path: "/dashboard",
+        element: <ApplicationInfo/>
+      },
+      {
+        path: "/dashboard/newApplication",
+        element: <NewApplication/>
+      },
+      {
+        path: "/dashboard/applicationHistory",
+        element: <ApplicationHistory/>
+      }
+    ]
   }
 ]);
 
