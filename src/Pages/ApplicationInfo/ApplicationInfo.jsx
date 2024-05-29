@@ -11,6 +11,7 @@ export default function ApplicationInfo() {
                 <p>2.7% increase</p>
             </div>
             
+            
          </div>
     </div>
   )

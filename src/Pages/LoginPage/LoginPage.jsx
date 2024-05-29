@@ -1,10 +1,13 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProviders";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 export const LoginPage = () => {
+  const axiosPublic = useAxiosPublic();
   const [register, setRegister] = useState(false);
-  const { signIn, createUser, user, logOut } = useContext(AuthContext);
+  const { signIn, createUser, user, logOut, googleSignIn } =
+    useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleRegisterSubmit = async (event) => {
@@ -17,8 +20,18 @@ export const LoginPage = () => {
       const result = await createUser(email, password); // Assuming createUser is a function that returns a promise
       const loggedUser = result.user;
       console.log(loggedUser);
-
-      navigate("/");
+      const userInfo = {
+        name: name,
+        email: email,
+        role: "channel partner",
+      };
+      axiosPublic.post("/users", userInfo)
+      .then(res => {
+        if (res.data.insertedId) {
+          console.log('user added to data base')
+          navigate("/");
+        }
+      });
     } catch (error) {
       console.error("Registration failed:", error);
     }
@@ -50,7 +63,21 @@ export const LoginPage = () => {
     // Reset form fields or perform further actions
     event.target.reset();
   };
-
+  const handleGoogleSignIn = () => {
+    googleSignIn().then((result) => {
+      console.log(result.user);
+      const userInfo ={
+        name: result.user?.displayName,
+        email: result.user?.email,
+        role: "channel partner"
+      }
+      axiosPublic.post('/users', userInfo)
+      .then(res =>{
+        console.log(res.data);
+        navigate("/");
+      })
+    });
+  };
   const handleLogout = () => {
     logOut()
       .then(() => {})
@@ -132,6 +159,7 @@ export const LoginPage = () => {
           </p>
           <hr />
           <button
+            onClick={handleGoogleSignIn}
             type="button"
             className="py-2 px-5 mb-4 mt-8 mx-auto block shadow-lg border rounded-md border-black"
           >
@@ -207,6 +235,7 @@ export const LoginPage = () => {
           </p>
           <hr />
           <button
+            onClick={handleGoogleSignIn}
             type="button"
             className="py-2 px-5 mb-4 mt-8 mx-auto block shadow-lg border rounded-md border-black"
           >
