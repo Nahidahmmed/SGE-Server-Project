@@ -69,7 +69,7 @@ export const LoginPage = () => {
       const userInfo ={
         name: result.user?.displayName,
         email: result.user?.email,
-        role: "channel partner"
+        // role: "channel partner"
       }
       axiosPublic.post('/users', userInfo)
       .then(res =>{

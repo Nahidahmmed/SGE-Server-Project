@@ -58,7 +58,7 @@ export default function AuthProviders({ children }) {
     return () => {
       return unsubscribe();
     };
-  }, []);
+  }, [axiosPublic]);
 
   const authInfo = {
     user,

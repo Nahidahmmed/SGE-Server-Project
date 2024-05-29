@@ -1,9 +1,14 @@
 import axios from "axios";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../Providers/AuthProviders";
 
 export const axiosSecure = axios.create({
   baseURL: "http://localhost:5000",
 });
 const useAxiosSecure = () => {
+    const {logOut} = useContext(AuthContext);
+    const navigate = useNavigate();
   // request interceptor to add authorization header for every secure call to the api
   axiosSecure.interceptors.request.use(
     function (config) {
@@ -20,9 +25,14 @@ const useAxiosSecure = () => {
     function (response) {
       return response;
     },
-     (error) => {
+     async (error) => {
         const status = error.response.status;
         console.log('status err' ,status)
+        // for 401 or 403 logout the user and move the user to the login page 
+        if(status === 401 || status === 403) {
+            await logOut();
+            navigate('/login')
+        }
       return Promise.reject(error);
     }
   );

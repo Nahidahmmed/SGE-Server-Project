@@ -3,6 +3,9 @@ import { FaHouseChimney } from "react-icons/fa6";
 import { FaPlusCircle } from "react-icons/fa";
 import { IoMenu } from "react-icons/io5";
 import { Link, Outlet, useLocation } from "react-router-dom";
+import useAdmin from "../../hooks/useAdmin";
+import useCounselor from "../../hooks/useCounselor";
+import usePartner from "../../hooks/usePartner";
 const Dashboard = () => {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -32,6 +35,10 @@ const Dashboard = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+  const [isAdmin] = useAdmin();
+  const [isCounselor] = useCounselor();
+  const [isPartner] = usePartner();
+  console.log(isAdmin,isCounselor,isPartner)
 
   return (
     <div className="min-h-screen flex flex-col">
