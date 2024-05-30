@@ -1,19 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import "./index.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-// import Layout from './Layout/Layout';
+import Layout from "./Layout/Layout";
 import { LoginPage } from "./Pages/LoginPage/LoginPage";
 import AuthProviders from "./Providers/AuthProviders";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
 import RegistrationForm from "./Pages/RegistrationForm/RegistrationForm";
-import Layout from "./Layout/Layout";
 import NewApplication from "./Pages/NewApplication/NewApplication";
 import ApplicationHistory from "./Pages/ApplicationHistory/ApplicationHistory";
 import ApplicationInfo from "./Pages/ApplicationInfo/ApplicationInfo";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
 
@@ -45,15 +44,15 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "/dashboard",
+        path: "",
         element: <ApplicationInfo />,
       },
       {
-        path: "/dashboard/newApplication",
+        path: "newApplication",
         element: <NewApplication />,
       },
       {
-        path: "/dashboard/applicationHistory",
+        path: "applicationHistory",
         element: <ApplicationHistory />,
       },
     ],
