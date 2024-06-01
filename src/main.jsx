@@ -4,7 +4,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 // import Layout from './Layout/Layout';
-import { LoginPage } from "./Pages/LoginPage/LoginPage";
+
 import AuthProviders from "./Providers/AuthProviders";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
@@ -14,6 +14,7 @@ import NewApplication from "./Pages/NewApplication/NewApplication";
 import ApplicationHistory from "./Pages/ApplicationHistory/ApplicationHistory";
 import ApplicationInfo from "./Pages/ApplicationInfo/ApplicationInfo";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import LoginPage from "./Pages/LoginPage/LoginPage";
 
 const queryClient = new QueryClient();
 
@@ -32,7 +33,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/login",
-        element: <LoginPage />,
+        element: <LoginPage/>,
       },
     ],
   },
