@@ -8,7 +8,7 @@ import useAxiosPublic from "../../hooks/useAxiosPublic";
 const LoginPage = () => {
   const axiosPublic = useAxiosPublic();
 
-const { signIn, googleSignIn } =
+const { signIn, googleSignIn,user, logOut } =
   useContext(AuthContext);
 const navigate = useNavigate();
 const handleLoginSubmit = async (event) => {
@@ -46,9 +46,24 @@ const handleGoogleSignIn = () => {
     });
   });
 };
-
+const handleLogout = () => {
+  logOut()
+    .then(() => {})
+    .catch((error) => console.log(error));
+};
   return (
     <div>
+      {user ? (
+        <div>
+          <p className="text-right">
+            {user.email} <button onClick={handleLogout}>Logout</button>
+          </p>
+        </div>
+      ) : (
+        <div>
+          <p>Please login</p>
+        </div>
+      )}
       <form
         className=""
         onSubmit={handleLoginSubmit}
