@@ -65,7 +65,7 @@ const Dashboard = () => {
           <div className="fixed inset-0 z-10 md:hidden" onClick={closeMenu}></div>
         )}
         <aside
-          className={`fixed inset-y-0 right-0 w-64 transform transition-all duration-300 bg-white ${
+          className={`fixed inset-y-0 right-0 w-64 transform transition-all duration-300 bg-[#2f3349] ${
             isMenuOpen ? "translate-x-0" : "translate-x-full"
           } md:relative md:translate-x-0 ${
             isLGMenuOpen ? "md:w-1/4 lg:w-[4%] translate-x-0" : "md:w-1/4 lg:w-[14%]"

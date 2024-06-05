@@ -27,38 +27,39 @@ const router = createBrowserRouter([
         path: "/",
         element: (
           <PrivateRoute>
+            <Dashboard />
+          </PrivateRoute>
+        ),
+        children: [
+          {
+            path: "/",
+            element: <ApplicationInfo />,
+          },
+          {
+            path: "/dashboard/newApplication",
+            element: <NewApplication />,
+          },
+          {
+            path: "/dashboard/applicationHistory",
+            element: <ApplicationHistory />,
+          },
+        ],
+      },
+      {
+        path: "/login",
+        element: <LoginPage />,
+      },
+      {
+        path: "/register",
+        element: (
+          <PrivateRoute>
             <RegistrationForm />
           </PrivateRoute>
         ),
       },
-      {
-        path: "/login",
-        element: <LoginPage/>,
-      },
     ],
   },
-  {
-    path: "/dashboard",
-    element: (
-      <PrivateRoute>
-        <Dashboard />
-      </PrivateRoute>
-    ),
-    children: [
-      {
-        path: "/dashboard",
-        element: <ApplicationInfo />,
-      },
-      {
-        path: "/dashboard/newApplication",
-        element: <NewApplication />,
-      },
-      {
-        path: "/dashboard/applicationHistory",
-        element: <ApplicationHistory />,
-      },
-    ],
-  },
+  
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

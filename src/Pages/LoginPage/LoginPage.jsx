@@ -73,8 +73,8 @@ const LoginPage = () => {
           <p>Please login</p>
         </div>
       )} */}
-      <div className="w-[65%] bg-[#c9b7c928] h-screen">
-        <p className="text-2xl font-bold text-gray-800 ml-[5%] mt-8">
+      <div className="w-[65%] bg-[#f8f7fa] h-screen hidden md:block lg:block">
+        <p className="text-2xl font-bold text-gray-800 ml-[5%] mt-5">
           Shabuj global
         </p>
         <img
@@ -83,7 +83,7 @@ const LoginPage = () => {
           alt=""
         />
       </div>
-      <div className="mx-auto w-[24%] mt-[14%]">
+      <div className="lg:mx-auto md:mx-auto mx-7 lg:w-[24%] md:w-[24%] w-full mt-[14%]">
       <form className="transition-all duration-300" onSubmit={handleLoginSubmit}>
       <div className="space-y-3">
         <p className="text-2xl font-semibold text-gray-700">
