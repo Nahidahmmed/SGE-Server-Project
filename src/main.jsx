@@ -15,6 +15,7 @@ import ApplicationHistory from "./Pages/ApplicationHistory/ApplicationHistory";
 import ApplicationInfo from "./Pages/ApplicationInfo/ApplicationInfo";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import LoginPage from "./Pages/LoginPage/LoginPage";
+import UploadFile from "./Pages/UploadFile/UploadFile";
 
 const queryClient = new QueryClient();
 
@@ -33,15 +34,15 @@ const router = createBrowserRouter([
         children: [
           {
             path: "/",
-            element: <ApplicationInfo />,
+            element: <PrivateRoute><ApplicationInfo /></PrivateRoute>,
           },
           {
             path: "/dashboard/newApplication",
-            element: <NewApplication />,
+            element: <PrivateRoute><NewApplication /></PrivateRoute>,
           },
           {
             path: "/dashboard/applicationHistory",
-            element: <ApplicationHistory />,
+            element: <PrivateRoute><ApplicationHistory /></PrivateRoute>,
           },
         ],
       },
@@ -51,15 +52,14 @@ const router = createBrowserRouter([
       },
       {
         path: "/register",
-        element: (
-          <PrivateRoute>
-            <RegistrationForm />
-          </PrivateRoute>
-        ),
+        element: <RegistrationForm />,
+      },
+      {
+        path: "/upload",
+        element: <UploadFile />,
       },
     ],
   },
-  
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

@@ -44,23 +44,8 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="p-4 flex justify-between items-center">
-        <div className="lg:flex md:flex flex flex-row-reverse">
-          <img
-            className="w-[230px] lg:ml-3 md:ml-3 ml-24"
-            src="https://i.ibb.co/whkCsCJ/shabujglobal-banner.png"
-            alt=""
-          />
-          <button className="md:hidden text-3xl mr-4 lg:ml-0 md:ml-0 ml-4" onClick={toggleMenu}>
-            <IoMenu />
-          </button>
-        </div>
-        <button className="hidden md:block mr-auto ml-10 text-3xl" onClick={toggleLGMenuOpen}>
-          <IoMenu />
-        </button>
-      </header>
       <div className="flex flex-1 relative">
-        {/* Overlay */}
+       
         {isMenuOpen && (
           <div className="fixed inset-0 z-10 md:hidden" onClick={closeMenu}></div>
         )}
@@ -71,13 +56,21 @@ const Dashboard = () => {
             isLGMenuOpen ? "md:w-1/4 lg:w-[4%] translate-x-0" : "md:w-1/4 lg:w-[14%]"
           } z-20`}
         >
+           <div>
+        <button className="md:hidden text-3xl mr-4 lg:ml-0 md:ml-0 ml-4" onClick={toggleMenu}>
+            <IoMenu />
+          </button>
+          <button className="hidden md:block mr-auto ml-10 text-3xl" onClick={toggleLGMenuOpen}>
+          <IoMenu />
+        </button>
+        </div>
           <nav>
-            <ul className={`text-center text-gray-500 ${isLGMenuOpen ? 'px-7 py-3 space-y-7 pt-6' : 'px-8 py-3 space-y-2'}`}>
+            <ul className={`text-center text-gray-500 ${isLGMenuOpen ? 'px-7 py-3 space-y-7 pt-6' : 'px-3 py-3 space-y-2'}`}>
               <li className="flex items-center gap-6">
                 <Link
                   to="/"
-                  className={`flex items-center gap-5 py-2 text-base ${
-                    location.pathname === '/' ? 'text-blue-500' : 'text-gray-500'
+                  className={`flex items-center pl-3 gap-3 py-2 text-base rounded-md font-medium w-full transform transition-all duration-200 ${
+                    location.pathname === '/' ? 'text-white bg-[#7367f0] w-full' : 'text-gray-300 hover:bg-gray-500 hover:bg-opacity-15 transform transition-all duration-200'
                   }`}
                 >
                   <FaHouseChimney />
@@ -90,7 +83,7 @@ const Dashboard = () => {
                     <Link
                       to="/dashboard/newApplication"
                       className={`flex items-center gap-5 py-2 text-base ${
-                        location.pathname === '/dashboard/newApplication' ? 'text-blue-500' : 'text-gray-500'
+                        location.pathname === '/dashboard/newApplication' ? 'text-blue-500' : 'text-gray-300 hover:bg-gray-500 hover:bg-opacity-15 transform transition-all duration-200'
                       }`}
                     >
                       <FaPlusCircle />
@@ -101,7 +94,7 @@ const Dashboard = () => {
                     <Link
                       to="/dashboard/applicationHistory"
                       className={`flex items-center gap-5 py-2 text-base ${
-                        location.pathname === '/dashboard/applicationHistory' ? 'text-blue-500' : 'text-gray-500'
+                        location.pathname === '/dashboard/applicationHistory' ? 'text-blue-500' : 'text-gray-300 hover:bg-gray-500 hover:bg-opacity-15 transform transition-all duration-200'
                       }`}
                     >
                       <FaPlusCircle />
@@ -116,7 +109,7 @@ const Dashboard = () => {
                     <Link
                       to="/dashboard/counselorPage1"
                       className={`flex items-center gap-5 py-2 text-base ${
-                        location.pathname === '/dashboard/counselorPage1' ? 'text-blue-500' : 'text-gray-500'
+                        location.pathname === '/dashboard/counselorPage1' ? 'text-blue-500' : 'text-gray-300 hover:bg-gray-500 hover:bg-opacity-15 transform transition-all duration-200'
                       }`}
                     >
                       <FaPlusCircle />
@@ -127,7 +120,7 @@ const Dashboard = () => {
                     <Link
                       to="/dashboard/counselorPage2"
                       className={`flex items-center gap-5 py-2 text-base ${
-                        location.pathname === '/dashboard/counselorPage2' ? 'text-blue-500' : 'text-gray-500'
+                        location.pathname === '/dashboard/counselorPage2' ? 'text-blue-500' : 'text-gray-300 hover:bg-gray-500 hover:bg-opacity-15 transform transition-all duration-200'
                       }`}
                     >
                       <FaPlusCircle />
@@ -140,24 +133,24 @@ const Dashboard = () => {
                 <>
                   <li className="flex items-center gap-6">
                     <Link
-                      to="/dashboard/partnerPage1"
-                      className={`flex items-center gap-5 py-2 text-base ${
-                        location.pathname === '/dashboard/partnerPage1' ? 'text-blue-500' : 'text-gray-500'
+                      to="/dashboard/newApplication"
+                      className={`flex items-center w-full gap-3 py-2 pl-3 rounded-md font-medium text-base transform transition-all duration-200 ${
+                        location.pathname === '/dashboard/newApplication' ? 'text-white bg-[#7367f0]' : 'text-gray-300 hover:bg-gray-500 hover:bg-opacity-15 transform transition-all duration-200'
                       }`}
                     >
                       <FaPlusCircle />
-                      <span className={`${isLGMenuOpen ? 'hidden' : 'block'}`}>Partner Page 1</span>
+                      <span className={`${isLGMenuOpen ? 'hidden' : 'block'}`}>Add New Application</span>
                     </Link>
                   </li>
                   <li className="flex items-center gap-6">
                     <Link
-                      to="/dashboard/partnerPage2"
-                      className={`flex items-center gap-5 py-2 text-base ${
-                        location.pathname === '/dashboard/partnerPage2' ? 'text-blue-500' : 'text-gray-500'
+                      to="/dashboard/applicationHistory"
+                      className={`flex items-center py-2 pl-3 w-full gap-3 rounded-md font-medium text-base transform transition-all duration-200 ${
+                        location.pathname === '/dashboard/applicationHistory' ? 'text-white bg-[#7367f0]' : 'text-gray-300 hover:bg-gray-500 hover:bg-opacity-15 transform transition-all duration-200'
                       }`}
                     >
                       <FaPlusCircle />
-                      <span className={`${isLGMenuOpen ? 'hidden' : 'block'}`}>Partner Page 2</span>
+                      <span className={`${isLGMenuOpen ? 'hidden' : 'block'}`}>Application History</span>
                     </Link>
                   </li>
                 </>
@@ -167,6 +160,7 @@ const Dashboard = () => {
         </aside>
         <main className="flex-1 p-4 bg-gray-100">
           <div className="">
+          <header>hellos</header>
             <Outlet />
           </div>
         </main>

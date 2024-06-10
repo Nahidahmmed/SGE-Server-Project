@@ -1,0 +1,178 @@
+{
+  "USA": {
+    "September/October 2024": {
+      "Harvard University": {
+        "Course Types": {
+          "Undergraduate": [
+            "Computer Science",
+            "Business Administration",
+            "Psychology"
+          ],
+          "Postgraduate": ["Data Science", "MBA", "Biotechnology"]
+        }
+      },
+      "Stanford University": {
+        "Course Types": {
+          "Undergraduate": ["Mechanical Engineering", "Economics", "Physics"],
+          "Postgraduate": ["Artificial Intelligence", "Finance", "Law"]
+        }
+      }
+    },
+    "January/February 2025": {
+      "MIT": {
+        "Course Types": {
+          "Undergraduate": [
+            "Aerospace Engineering",
+            "Chemistry",
+            "Mathematics"
+          ],
+          "Postgraduate": [
+            "Robotics",
+            "Supply Chain Management",
+            "Nano Technology"
+          ]
+        }
+      },
+      "Princeton University": {
+        "Course Types": {
+          "Undergraduate": ["History", "Sociology", "Environmental Science"],
+          "Postgraduate": ["Political Science", "Astrophysics", "Anthropology"]
+        }
+      }
+    }
+  },
+  "UK": {
+    "September/October 2024": {
+      "University of Oxford": {
+        "Course Types": {
+          "Undergraduate": ["Philosophy", "Law", "Medicine"],
+          "Postgraduate": [
+            "Public Policy",
+            "International Relations",
+            "Engineering"
+          ]
+        }
+      },
+      "University of Cambridge": {
+        "Course Types": {
+          "Undergraduate": ["Computer Science", "History", "Linguistics"],
+          "Postgraduate": ["Genetics", "Artificial Intelligence", "Business"]
+        }
+      }
+    },
+    "January/February 2025": {
+      "Imperial College London": {
+        "Course Types": {
+          "Undergraduate": [
+            "Electrical Engineering",
+            "Life Sciences",
+            "Design Engineering"
+          ],
+          "Postgraduate": [
+            "Sustainable Energy",
+            "Quantum Mechanics",
+            "Innovation Management"
+          ]
+        }
+      },
+      "London School of Economics": {
+        "Course Types": {
+          "Undergraduate": ["Economics", "Political Science", "Sociology"],
+          "Postgraduate": [
+            "Global Politics",
+            "Data Science",
+            "Public Administration"
+          ]
+        }
+      }
+    }
+  },
+  "Australia": {
+    "February/March 2024": {
+      "University of Melbourne": {
+        "Course Types": {
+          "Undergraduate": ["Agricultural Science", "Music", "Commerce"],
+          "Postgraduate": ["Cybersecurity", "Urban Planning", "Marine Biology"]
+        }
+      },
+      "University of Sydney": {
+        "Course Types": {
+          "Undergraduate": [
+            "Veterinary Science",
+            "Media and Communications",
+            "Dentistry"
+          ],
+          "Postgraduate": [
+            "Information Technology",
+            "Business Analytics",
+            "Public Health"
+          ]
+        }
+      }
+    },
+    "July/August 2024": {
+      "Australian National University": {
+        "Course Types": {
+          "Undergraduate": ["Asian Studies", "Biotechnology", "Physics"],
+          "Postgraduate": ["Astronomy", "Climate Change", "Neuroscience"]
+        }
+      },
+      "University of Queensland": {
+        "Course Types": {
+          "Undergraduate": [
+            "Marine Studies",
+            "International Business",
+            "Economics"
+          ],
+          "Postgraduate": ["Microbiology", "Marketing", "Finance"]
+        }
+      }
+    }
+  },
+  "Canada": {
+    "September/October 2024": {
+      "University of Toronto": {
+        "Course Types": {
+          "Undergraduate": [
+            "Chemical Engineering",
+            "Sociology",
+            "Anthropology"
+          ],
+          "Postgraduate": [
+            "Computer Engineering",
+            "Business Administration",
+            "History"
+          ]
+        }
+      },
+      "University of British Columbia": {
+        "Course Types": {
+          "Undergraduate": ["Geography", "Physics", "Psychology"],
+          "Postgraduate": ["Earth Sciences", "Computer Science", "Economics"]
+        }
+      }
+    },
+    "January/February 2025": {
+      "McGill University": {
+        "Course Types": {
+          "Undergraduate": ["Art History", "Biology", "Chemical Engineering"],
+          "Postgraduate": [
+            "Materials Science",
+            "Political Science",
+            "Management"
+          ]
+        }
+      },
+      "University of Alberta": {
+        "Course Types": {
+          "Undergraduate": [
+            "Environmental Science",
+            "Civil Engineering",
+            "Education"
+          ],
+          "Postgraduate": ["Renewable Energy", "Industrial Design", "Chemistry"]
+        }
+      }
+    }
+  }
+}

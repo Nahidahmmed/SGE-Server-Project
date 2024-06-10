@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 
 export default function RegistrationForm() {
   const axiosPublic = useAxiosPublic();
-  const { createUser,logOut } = useContext(AuthContext);
+  const { createUser, logOut } = useContext(AuthContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: "",
@@ -79,10 +79,10 @@ export default function RegistrationForm() {
               console.log("API Response:", response);
 
               if (response.data.results && response.data.results.length > 0) {
-                const country = response.data.results[0].components.country;
-                setCountry(country);
-                setSelectedOption(country); // Set initial selected option
-                setIsLoaded(true); // Set isLoaded to true once data is fetched
+                const Country = response.data.results[0].components.country;
+                setCountry(Country);
+                setSelectedOption(Country);
+                setIsLoaded(true);
               }
             } catch (error) {
               console.error("Failed to fetch country data:", error);
@@ -165,7 +165,6 @@ export default function RegistrationForm() {
     }));
   };
 
-  
   const submitFormData = async (data) => {
     try {
       const result = await createUser(data.email, data.confirmPassword); // Assuming createUser is a function that returns a promise
@@ -190,31 +189,31 @@ export default function RegistrationForm() {
         console.log("User added to database");
         // Display SweetAlert
         Swal.fire({
-          title: 'Success',
-          text: 'You have successfully registered! Redirecting to login...',
-          icon: 'success',
+          title: "Success",
+          text: "You have successfully registered! Redirecting to login...",
+          icon: "success",
           timer: 3000, // 3 seconds
           timerProgressBar: true,
           didClose: () => {
             // Navigate to login after the alert is closed
             navigate("/login");
-          }
+          },
         });
 
         logOut()
-      .then(() => {})
-      .catch((error) => console.log(error));
+          .then(() => {})
+          .catch((error) => console.log(error));
       }
     } catch (error) {
       console.error("Registration failed:", error);
       Swal.fire({
-        title: 'Error',
-        text: 'Registration failed. Please try again.',
-        icon: 'error',
+        title: "Error",
+        text: "Registration failed. Please try again.",
+        icon: "error",
         didClose: () => {
           // Navigate to login after the alert is closed
           navigate("/register");
-        }
+        },
       });
     }
   };
@@ -407,7 +406,7 @@ export default function RegistrationForm() {
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? (
-                      <AiOutlineEye  />
+                      <AiOutlineEye />
                     ) : (
                       <AiOutlineEyeInvisible />
                     )}
@@ -597,7 +596,7 @@ export default function RegistrationForm() {
                     onClick={() => setIsOpen(!isOpen)}
                     className="w-full px-2 py-[6px] rounded-md hover:border-gray-500 transition-all transform duration-300 focus:border-[#7367f0] focus:border-[3px] focus:shadow-[0px_0px_5px_2px_rgba(50,100,70,0.1)] border border-gray-300 text-left text-gray-500 focus:outline-none"
                   >
-                    {selectedOption}
+                    {selectedOption ? selectedOption : "please select a country"}
                     <IoCaretDown className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none" />
                   </button>
                   {isOpen && (
@@ -673,9 +672,9 @@ export default function RegistrationForm() {
               Sign Up
             </button>
             <p className=" text-center text-gray-500">
-            Already have an account?
+              Already have an account?
               <Link to="/login" className=" text-[#7367f0] ml-2">
-              Sign in instead
+                Sign in instead
               </Link>
             </p>
           </form>
