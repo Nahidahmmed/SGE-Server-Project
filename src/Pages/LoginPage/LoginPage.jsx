@@ -6,7 +6,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa6";
 
 const LoginPage = () => {
   
-  const { signIn, logOut,user } = useContext(AuthContext);
+  const { signIn } = useContext(AuthContext);
 
   const [checked, setChecked] = useState(false);
 
@@ -36,11 +36,7 @@ const LoginPage = () => {
     event.target.reset();
   };
  
-  const handleLogout = () => {
-    logOut()
-      .then(() => {})
-      .catch((error) => console.log(error));
-  };
+  
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -48,17 +44,6 @@ const LoginPage = () => {
   };
   return (
     <div className="flex">
-      {user ? (
-        <div>
-          <p className="text-right">
-            {user.email} <button onClick={handleLogout}>Logout</button>
-          </p>
-        </div>
-      ) : (
-        <div>
-          <p>Please login</p>
-        </div>
-      )}
       <div className="w-[65%] bg-[#f8f7fa] h-screen hidden md:block lg:block">
         <p className="text-2xl font-bold text-gray-800 ml-[5%] mt-5">
           Shabuj global

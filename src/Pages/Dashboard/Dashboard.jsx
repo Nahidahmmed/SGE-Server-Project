@@ -1,30 +1,22 @@
 import { useState, useEffect } from "react";
-import { FaHouseChimney } from "react-icons/fa6";
-import { FaPlusCircle } from "react-icons/fa";
-import { IoMenu } from "react-icons/io5";
+import { FaRegEnvelopeOpen } from "react-icons/fa";
+import { HiOutlineSquaresPlus } from "react-icons/hi2";
+import { LiaDotCircle } from "react-icons/lia";
+import { RxHamburgerMenu } from "react-icons/rx";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import useAdmin from "../../hooks/useAdmin";
 import useCounselor from "../../hooks/useCounselor";
 import usePartner from "../../hooks/usePartner";
+import Avatar from "../../Components/Avatar";
 
 const Dashboard = () => {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
   const [isLGMenuOpen, setIsLGMenuOpen] = useState(false);
 
-  const toggleLGMenuOpen = () => {
-    setIsLGMenuOpen(!isLGMenuOpen);
-  };
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const toggleLGMenuOpen = () => setIsLGMenuOpen(!isLGMenuOpen);
 
-  const closeMenu = () => {
-    setIsMenuOpen(false);
-  };
-
-  // Close the menu when the window is resized to a wider viewport
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768) {
@@ -32,135 +24,154 @@ const Dashboard = () => {
       }
     };
     window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const [isAdmin] = useAdmin();
   const [isCounselor] = useCounselor();
   const [isPartner] = usePartner();
-  console.log(isAdmin, isCounselor, isPartner);
+
+  const handleOutsideClick = (e) => {
+    if (e.target.id === "overlay") {
+      setIsMenuOpen(false);
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
       <div className="flex flex-1 relative">
-       
         {isMenuOpen && (
-          <div className="fixed inset-0 z-10 md:hidden" onClick={closeMenu}></div>
+          <div
+            id="overlay"
+            className="fixed inset-0 bg-black bg-opacity-15 z-10"
+            onClick={handleOutsideClick}
+          ></div>
         )}
         <aside
-          className={`fixed inset-y-0 right-0 w-64 transform transition-all duration-300 bg-[#2f3349] ${
-            isMenuOpen ? "translate-x-0" : "translate-x-full"
+          className={`fixed inset-y-0 left-0 w-64 transform transition-transform duration-300 ease-in-out bg-[#2f3349] ${
+            isMenuOpen ? "translate-x-0" : "-translate-x-full"
           } md:relative md:translate-x-0 ${
-            isLGMenuOpen ? "md:w-1/4 lg:w-[4%] translate-x-0" : "md:w-1/4 lg:w-[14%]"
+            isLGMenuOpen
+              ? "md:w-1/4 lg:w-[4%] translate-x-0"
+              : "md:w-1/4 lg:w-[14%]"
           } z-20`}
         >
-           <div>
-        <button className="md:hidden text-3xl mr-4 lg:ml-0 md:ml-0 ml-4" onClick={toggleMenu}>
-            <IoMenu />
-          </button>
-          <button className="hidden md:block mr-auto ml-10 text-3xl" onClick={toggleLGMenuOpen}>
-          <IoMenu />
-        </button>
-        </div>
+          <div className="flex justify-between items-center text-white p-4">
+            <p
+              className={`font-bold text-3xl ${
+                isLGMenuOpen ? "hidden" : "block"
+              }`}
+            >
+              Shabuj Global
+            </p>
+            <div className="flex items-center gap-2">
+              <button
+                className={`hidden lg:block md:block  ${isMenuOpen ? 'text-3xl' : 'text-3xl ml-2'}`}
+                onClick={toggleLGMenuOpen}
+              >
+                <LiaDotCircle />
+              </button>
+            </div>
+          </div>
           <nav>
-            <ul className={`text-center text-gray-500 ${isLGMenuOpen ? 'px-7 py-3 space-y-7 pt-6' : 'px-3 py-3 space-y-2'}`}>
-              <li className="flex items-center gap-6">
-                <Link
-                  to="/"
-                  className={`flex items-center pl-3 gap-3 py-2 text-base rounded-md font-medium w-full transform transition-all duration-200 ${
-                    location.pathname === '/' ? 'text-white bg-[#7367f0] w-full' : 'text-gray-300 hover:bg-gray-500 hover:bg-opacity-15 transform transition-all duration-200'
-                  }`}
-                >
-                  <FaHouseChimney />
-                  <span className={`${isLGMenuOpen ? 'hidden' : 'block'}`}>Dashboard</span>
-                </Link>
-              </li>
+            <ul
+              className={`text-center text-gray-500 space-y-4 py-4 ${
+                isLGMenuOpen ? "px-2 mt-1" : "px-2"
+              }`}
+            >
+              <NavItem
+                to="/"
+                icon={<FaRegEnvelopeOpen />}
+                label="Dashboard"
+                active={location.pathname === "/"}
+                isLGMenuOpen={isLGMenuOpen}
+              />
               {isAdmin && (
                 <>
-                  <li className="flex items-center gap-6">
-                    <Link
-                      to="/dashboard/newApplication"
-                      className={`flex items-center gap-5 py-2 text-base ${
-                        location.pathname === '/dashboard/newApplication' ? 'text-blue-500' : 'text-gray-300 hover:bg-gray-500 hover:bg-opacity-15 transform transition-all duration-200'
-                      }`}
-                    >
-                      <FaPlusCircle />
-                      <span className={`${isLGMenuOpen ? 'hidden' : 'block'}`}>Add New Application</span>
-                    </Link>
-                  </li>
-                  <li className="flex items-center gap-6">
-                    <Link
-                      to="/dashboard/applicationHistory"
-                      className={`flex items-center gap-5 py-2 text-base ${
-                        location.pathname === '/dashboard/applicationHistory' ? 'text-blue-500' : 'text-gray-300 hover:bg-gray-500 hover:bg-opacity-15 transform transition-all duration-200'
-                      }`}
-                    >
-                      <FaPlusCircle />
-                      <span className={`${isLGMenuOpen ? 'hidden' : 'block'}`}>Application History</span>
-                    </Link>
-                  </li>
+                  <NavItem
+                    to="/dashboard/newApplication"
+                    icon={
+                      <HiOutlineSquaresPlus className="transform scale-x-[-1] text-[22px]" />
+                    }
+                    label="Add New Application"
+                    active={location.pathname === "/dashboard/newApplication"}
+                    isLGMenuOpen={isLGMenuOpen}
+                  />
+                  <NavItem
+                    to="/dashboard/applicationHistory"
+                    icon={
+                      <HiOutlineSquaresPlus className="transform scale-x-[-1] text-[22px]" />
+                    }
+                    label="Application History"
+                    active={
+                      location.pathname === "/dashboard/applicationHistory"
+                    }
+                    isLGMenuOpen={isLGMenuOpen}
+                  />
                 </>
               )}
               {isCounselor && (
                 <>
-                  <li className="flex items-center gap-6">
-                    <Link
-                      to="/dashboard/counselorPage1"
-                      className={`flex items-center gap-5 py-2 text-base ${
-                        location.pathname === '/dashboard/counselorPage1' ? 'text-blue-500' : 'text-gray-300 hover:bg-gray-500 hover:bg-opacity-15 transform transition-all duration-200'
-                      }`}
-                    >
-                      <FaPlusCircle />
-                      <span className={`${isLGMenuOpen ? 'hidden' : 'block'}`}>Counselor Page 1</span>
-                    </Link>
-                  </li>
-                  <li className="flex items-center gap-6">
-                    <Link
-                      to="/dashboard/counselorPage2"
-                      className={`flex items-center gap-5 py-2 text-base ${
-                        location.pathname === '/dashboard/counselorPage2' ? 'text-blue-500' : 'text-gray-300 hover:bg-gray-500 hover:bg-opacity-15 transform transition-all duration-200'
-                      }`}
-                    >
-                      <FaPlusCircle />
-                      <span className={`${isLGMenuOpen ? 'hidden' : 'block'}`}>Counselor Page 2</span>
-                    </Link>
-                  </li>
+                  <NavItem
+                    to="/dashboard/counselorPage1"
+                    icon={
+                      <HiOutlineSquaresPlus className="transform scale-x-[-1] text-[22px]" />
+                    }
+                    label="Counselor Page 1"
+                    active={location.pathname === "/dashboard/counselorPage1"}
+                    isLGMenuOpen={isLGMenuOpen}
+                  />
+                  <NavItem
+                    to="/dashboard/counselorPage2"
+                    icon={
+                      <HiOutlineSquaresPlus className="transform scale-x-[-1] text-[22px]" />
+                    }
+                    label="Counselor Page 2"
+                    active={location.pathname === "/dashboard/counselorPage2"}
+                    isLGMenuOpen={isLGMenuOpen}
+                  />
                 </>
               )}
               {isPartner && (
                 <>
-                  <li className="flex items-center gap-6">
-                    <Link
-                      to="/dashboard/newApplication"
-                      className={`flex items-center w-full gap-3 py-2 pl-3 rounded-md font-medium text-base transform transition-all duration-200 ${
-                        location.pathname === '/dashboard/newApplication' ? 'text-white bg-[#7367f0]' : 'text-gray-300 hover:bg-gray-500 hover:bg-opacity-15 transform transition-all duration-200'
-                      }`}
-                    >
-                      <FaPlusCircle />
-                      <span className={`${isLGMenuOpen ? 'hidden' : 'block'}`}>Add New Application</span>
-                    </Link>
-                  </li>
-                  <li className="flex items-center gap-6">
-                    <Link
-                      to="/dashboard/applicationHistory"
-                      className={`flex items-center py-2 pl-3 w-full gap-3 rounded-md font-medium text-base transform transition-all duration-200 ${
-                        location.pathname === '/dashboard/applicationHistory' ? 'text-white bg-[#7367f0]' : 'text-gray-300 hover:bg-gray-500 hover:bg-opacity-15 transform transition-all duration-200'
-                      }`}
-                    >
-                      <FaPlusCircle />
-                      <span className={`${isLGMenuOpen ? 'hidden' : 'block'}`}>Application History</span>
-                    </Link>
-                  </li>
+                  <NavItem
+                    to="/dashboard/newApplication"
+                    icon={
+                      <HiOutlineSquaresPlus className="transform scale-x-[-1] text-[22px]" />
+                    }
+                    label="Add New Application"
+                    active={location.pathname === "/dashboard/newApplication"}
+                    isLGMenuOpen={isLGMenuOpen}
+                  />
+                  <NavItem
+                    to="/dashboard/applicationHistory"
+                    icon={
+                      <HiOutlineSquaresPlus className={`transform scale-x-[-1]  ${isMenuOpen ? 'text-[22px]' : 'text-xl'}`} />
+                    }
+                    label="Application History"
+                    active={
+                      location.pathname === "/dashboard/applicationHistory"
+                    }
+                    isLGMenuOpen={isLGMenuOpen}
+                  />
                 </>
               )}
             </ul>
           </nav>
         </aside>
-        <main className="flex-1 p-4 bg-gray-100">
-          <div className="">
-          <header>hellos</header>
+        <main className="flex-1 p-4 bg-[#b267f00a] w-full">
+          <div className="w-[85%] mx-auto">
+            <header className="bg-white mb-4 flex justify-between items-center shadow-[0px_0px_10px_5px_rgba(50,70,70,0.1)] rounded-md p-3">
+              <button
+                className="text-black text-3xl lg:hidden md:hidden"
+                onClick={toggleMenu}
+              >
+                <RxHamburgerMenu />
+              </button>
+              <div className="ml-auto">
+                <Avatar />
+              </div>
+            </header>
             <Outlet />
           </div>
         </main>
@@ -168,5 +179,27 @@ const Dashboard = () => {
     </div>
   );
 };
+
+const NavItem = ({ to, icon, label, active, isLGMenuOpen }) => (
+  <li className="flex items-center gap-4">
+    <Link
+      to={to}
+      className={`flex items-center gap-3 px-4 py-2 text-base rounded-md font-medium ${isLGMenuOpen ? 'mx-auto' : 'w-full'} transform transition-all duration-300 ease-in-out ${
+        active
+          ? "text-white bg-[#7367f0]"
+          : "text-gray-300 hover:bg-gray-500 hover:bg-opacity-15"
+      }`}
+    >
+      {icon}
+      <span
+        className={` ${
+          isLGMenuOpen ? "hidden" : "opacity-100"
+        }`}
+      >
+        {label}
+      </span>
+    </Link>
+  </li>
+);
 
 export default Dashboard;
