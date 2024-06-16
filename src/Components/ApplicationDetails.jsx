@@ -1,8 +1,26 @@
+import React, { useState } from "react";
 import Tabs from "./Tabs";
 
+import FileUpload from "./FileUpload";
+
 const ApplicationDetails = ({ filteredData, studentCountry, onPrevious }) => {
+  const [showNext, setShowNext] = useState(false);
+
+  const handleNext = () => {
+    setShowNext(true);
+  };
+
+  const handlePrevious = () => {
+    setShowNext(false);
+    if (onPrevious) onPrevious();
+  };
+
+  if (showNext) {
+    return <FileUpload onPrevious={handlePrevious} />;
+  }
+
   return (
-    <div className=" mt-10 mx-auto">
+    <div className="mt-10 mx-auto">
       <h1 className="text-2xl font-bold mb-4">Application Details</h1>
       <div className="flex gap-5">
         <div className="w-[30%] shadow-[0px_0px_10px_5px_rgba(0,0,0,0.1)] rounded-md">
@@ -37,13 +55,12 @@ const ApplicationDetails = ({ filteredData, studentCountry, onPrevious }) => {
         <div className="w-[70%]">
           {filteredData.map((item, index) => (
             <div
-            key={index}
+              key={index}
               className={`${
-                item["Academic Requirement"] == "" ? "h-32" : "h-auto"
+                item["Academic Requirement"] === "" ? "h-32" : "h-auto"
               } shadow-[0px_0px_10px_5px_rgba(0,0,0,0.1)] rounded-md`}
             >
               <Tabs
-                
                 Academic={item["Academic Requirement"]}
                 English={item["English Requirement"]}
               />
@@ -53,13 +70,14 @@ const ApplicationDetails = ({ filteredData, studentCountry, onPrevious }) => {
             <button
               type="button"
               className="bg-gray-500 mt-10 text-white py-2 px-4 rounded"
-              onClick={onPrevious}
+              onClick={handlePrevious}
             >
               Previous
             </button>
             <button
               type="button"
               className="bg-[#7367f0] mt-10 text-white py-2 px-4 rounded"
+              onClick={handleNext}
             >
               Next
             </button>
@@ -71,7 +89,3 @@ const ApplicationDetails = ({ filteredData, studentCountry, onPrevious }) => {
 };
 
 export default ApplicationDetails;
-
-{
-  /*  */
-}
