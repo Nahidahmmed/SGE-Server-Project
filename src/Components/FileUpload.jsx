@@ -36,14 +36,14 @@ const FileUpload = ({ filteredData, studentCountry }) => {
 
     try {
       const response = await axios.post(
-        `https://api.cloudinary.com/v1_1/dr75v4jup/upload`,
+        `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_clowdName}/upload`,
         formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
           },
           params: {
-            upload_preset: "fksqlqhl",
+            upload_preset: import.meta.env.VITE_clowdkey,
           },
         }
       );
