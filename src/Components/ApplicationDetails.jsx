@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Tabs from "./Tabs";
-
 import FileUpload from "./FileUpload";
 
 const ApplicationDetails = ({ filteredData, studentCountry, onPrevious }) => {
@@ -15,23 +14,21 @@ const ApplicationDetails = ({ filteredData, studentCountry, onPrevious }) => {
     if (onPrevious) onPrevious();
   };
 
-  if (showNext) {
-    return <FileUpload onPrevious={handlePrevious} />;
-  }
-
   return (
-    <div className="mt-10 mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Application Details</h1>
+    <div className="mt-8 mx-auto">
       <div className="flex gap-5">
-        <div className="w-[30%] shadow-[0px_0px_10px_5px_rgba(0,0,0,0.1)] rounded-md">
-          <img
-            className="w-full h-40"
-            src={filteredData["University Logo"]}
-            alt=""
-          />
+        <div className="w-[30%] p-5 bg-white rounded-lg shadow-[0px_0px_10px_5px_rgba(0,0,0,0.1)] h-[450px]">
+          {
+           filteredData["University Logo"] ? <div><img
+           className="w-full h-40 rounded-t-xl border-none"
+           src={filteredData["University Logo"]}
+           alt=""
+         /></div>  : <div className="h-32"></div>
+          }
+          
           {filteredData.map((item, index) => (
-            <div key={index} className="mb-4 p-5 space-y-5">
-              <p>
+            <div key={index} className="space-y-5 w-full ">
+              <p >
                 <strong>Course Name:</strong> {item["Course Name"]}
               </p>
               <p>
@@ -52,37 +49,42 @@ const ApplicationDetails = ({ filteredData, studentCountry, onPrevious }) => {
             </div>
           ))}
         </div>
-        <div className="w-[70%]">
-          {filteredData.map((item, index) => (
-            <div
-              key={index}
-              className={`${
-                item["Academic Requirement"] === "" ? "h-32" : "h-auto"
-              } shadow-[0px_0px_10px_5px_rgba(0,0,0,0.1)] rounded-md`}
-            >
-              <Tabs
-                Academic={item["Academic Requirement"]}
-                English={item["English Requirement"]}
-              />
+        {!showNext ? (
+          <div className="w-[70%]">
+            {filteredData.map((item, index) => (
+              <div
+                key={index}
+                className={`${
+                  item["Academic Requirement"] === "" ? "h-32" : "h-auto"
+                } shadow-[0px_0px_10px_5px_rgba(0,0,0,0.1)] rounded-md`}
+              >
+                <Tabs
+                  Academic={item["Academic Requirement"]}
+                  English={item["English Requirement"]}
+                />
+              </div>
+            ))}
+            <div className="flex justify-between">
+              <button
+                type="button"
+                className="bg-gray-500 mt-10 text-white py-2 px-4 rounded"
+                onClick={handlePrevious}
+              >
+                Previous
+              </button>
+              <button
+                type="button"
+                className="bg-[#7367f0] mt-10 text-white py-2 px-4 rounded"
+                onClick={handleNext}
+              >
+                Next
+              </button>
             </div>
-          ))}
-          <div className="">
-            <button
-              type="button"
-              className="bg-gray-500 mt-10 text-white py-2 px-4 rounded"
-              onClick={handlePrevious}
-            >
-              Previous
-            </button>
-            <button
-              type="button"
-              className="bg-[#7367f0] mt-10 text-white py-2 px-4 rounded"
-              onClick={handleNext}
-            >
-              Next
-            </button>
           </div>
-        </div>
+        ) : (
+          <FileUpload onPrevious={handlePrevious} filteredData={filteredData}
+          studentCountry={studentCountry} />
+        )}
       </div>
     </div>
   );

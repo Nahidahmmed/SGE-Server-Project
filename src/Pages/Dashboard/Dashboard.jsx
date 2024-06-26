@@ -4,9 +4,6 @@ import { HiOutlineSquaresPlus } from "react-icons/hi2";
 import { LiaDotCircle } from "react-icons/lia";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import useAdmin from "../../hooks/useAdmin";
-import useCounselor from "../../hooks/useCounselor";
-import usePartner from "../../hooks/usePartner";
 import Avatar from "../../Components/Avatar";
 
 const Dashboard = () => {
@@ -27,10 +24,7 @@ const Dashboard = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const [isAdmin] = useAdmin();
-  const [isCounselor] = useCounselor();
-  const [isPartner] = usePartner();
-
+ 
   const handleOutsideClick = (e) => {
     if (e.target.id === "overlay") {
       setIsMenuOpen(false);
@@ -86,54 +80,8 @@ const Dashboard = () => {
                 active={location.pathname === "/"}
                 isLGMenuOpen={isLGMenuOpen}
               />
-              {isAdmin && (
-                <>
-                  <NavItem
-                    to="/dashboard/newApplication"
-                    icon={
-                      <HiOutlineSquaresPlus className="transform scale-x-[-1] text-[22px]" />
-                    }
-                    label="Add New Application"
-                    active={location.pathname === "/dashboard/newApplication"}
-                    isLGMenuOpen={isLGMenuOpen}
-                  />
-                  <NavItem
-                    to="/dashboard/applicationHistory"
-                    icon={
-                      <HiOutlineSquaresPlus className="transform scale-x-[-1] text-[22px]" />
-                    }
-                    label="Application History"
-                    active={
-                      location.pathname === "/dashboard/applicationHistory"
-                    }
-                    isLGMenuOpen={isLGMenuOpen}
-                  />
-                </>
-              )}
-              {isCounselor && (
-                <>
-                  <NavItem
-                    to="/dashboard/counselorPage1"
-                    icon={
-                      <HiOutlineSquaresPlus className="transform scale-x-[-1] text-[22px]" />
-                    }
-                    label="Counselor Page 1"
-                    active={location.pathname === "/dashboard/counselorPage1"}
-                    isLGMenuOpen={isLGMenuOpen}
-                  />
-                  <NavItem
-                    to="/dashboard/counselorPage2"
-                    icon={
-                      <HiOutlineSquaresPlus className="transform scale-x-[-1] text-[22px]" />
-                    }
-                    label="Counselor Page 2"
-                    active={location.pathname === "/dashboard/counselorPage2"}
-                    isLGMenuOpen={isLGMenuOpen}
-                  />
-                </>
-              )}
-              {isPartner && (
-                <>
+             
+              
                   <NavItem
                     to="/dashboard/newApplication"
                     icon={
@@ -154,8 +102,18 @@ const Dashboard = () => {
                     }
                     isLGMenuOpen={isLGMenuOpen}
                   />
-                </>
-              )}
+                  <NavItem
+                    to="/dashboard/FileUpload"
+                    icon={
+                      <HiOutlineSquaresPlus className={`transform scale-x-[-1]  ${isMenuOpen ? 'text-[22px]' : 'text-xl'}`} />
+                    }
+                    label="Upload University Data"
+                    active={
+                      location.pathname === "/dashboard/FileUpload"
+                    }
+                    isLGMenuOpen={isLGMenuOpen}
+                  />
+                
             </ul>
           </nav>
         </aside>

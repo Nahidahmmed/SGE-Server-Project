@@ -17,6 +17,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import LoginPage from "./Pages/LoginPage/LoginPage";
 import UploadFile from "./Pages/UploadFile/UploadFile";
 import NewApplicationParent from "./Pages/NewApplicationParent/NewApplicationParent";
+import StudentDetail from "./Pages/StudentDetail/StudentDetail";
+
 
 const queryClient = new QueryClient();
 
@@ -45,6 +47,14 @@ const router = createBrowserRouter([
             path: "/dashboard/applicationHistory",
             element: <PrivateRoute><ApplicationHistory /></PrivateRoute>,
           },
+          {
+            path: "/dashboard/FileUpload",
+            element: <PrivateRoute><UploadFile /></PrivateRoute>,
+          },
+          {
+            path: "/dashboard/applicationHistory/:id",
+            element: <PrivateRoute><StudentDetail/></PrivateRoute>
+          },
         ],
       },
       {
@@ -54,11 +64,7 @@ const router = createBrowserRouter([
       {
         path: "/register",
         element: <RegistrationForm />,
-      },
-      {
-        path: "/upload",
-        element: <UploadFile />,
-      },
+      }
     ],
   },
 ]);

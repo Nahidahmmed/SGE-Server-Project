@@ -1,30 +1,22 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "./useAxiosSecure";
+import { useContext } from "react";
+import { AuthContext } from "../Providers/AuthProviders";
 
-const useFetchData = (url, initialLimit) => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [limit, setLimit] = useState(initialLimit);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get(url, { params: { limit } });
-        setData(response.data.data);
-        setLimit(response.data.total); // Set limit dynamically
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+const useFetchData = () => {
+  
+  const axiosSecure = useAxiosSecure();
+  const { user } = useContext(AuthContext);
+  const {refetch,data: students = [],isLoading} = useQuery({
+      queryKey: ['students'],
+      queryFn: async () =>{
+        const res = await axiosSecure.get(`/students?email=${user?.email}`)
+        return res.data;
       }
-    };
+  })
+  return [students,refetch,isLoading]
 
-    fetchData();
-  }, [url, limit]);
-
-  return { data, loading, error, limit, setLimit };
 };
 
 export default useFetchData;

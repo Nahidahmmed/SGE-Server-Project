@@ -1,38 +1,38 @@
-// dr75v4jup fksqlqhl
-import React, { useState } from 'react';
-import axios from 'axios';
+import { useState, useEffect } from "react";
+import { FilePond, registerPlugin } from "react-filepond";
+import "filepond/dist/filepond.min.css";
+import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
+import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
+import axios from "axios";
+import StudentForm from "./StudentForm";
 
-const FileUploadComponent = () => {
-  const [selectedFiles, setSelectedFiles] = useState([]);
+registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
+
+const FileUpload = ({ filteredData, studentCountry }) => {
+  const [files, setFiles] = useState([]);
   const [uploading, setUploading] = useState(false);
-  const [uploadError, setUploadError] = useState('');
-  const [uploadedUrls, setUploadedUrls] = useState([]);
-  const [previewUrl, setPreviewUrl] = useState('');
+  const [uploadError, setUploadError] = useState("");
+  const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [showNext, setShowNext] = useState(true);
+  const [nextError, setNextError] = useState("");
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setSelectedFiles([file]);
-
-    // Preview selected image if it's an image file
-    if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewUrl(reader.result);
-      };
-      reader.readAsDataURL(file);
+  const handleNext = () => {
+    if (uploadedFiles.length === 0) {
+      setNextError("Please upload at least one file before proceeding.");
     } else {
-      setPreviewUrl('');
+      setShowNext(false);
+      setNextError("");
     }
   };
 
-  const handleUpload = async () => {
+  const handleUpload = async (file) => {
     setUploading(true);
-    setUploadError('');
+    setUploadError("");
+    setNextError(""); // Clear the error message when a new upload starts
 
     const formData = new FormData();
-    selectedFiles.forEach(file => {
-      formData.append('file', file);
-    });
+    formData.append("file", file.file);
 
     try {
       const response = await axios.post(
@@ -40,103 +40,141 @@ const FileUploadComponent = () => {
         formData,
         {
           headers: {
-            'Content-Type': 'multipart/form-data'
+            "Content-Type": "multipart/form-data",
           },
           params: {
-            upload_preset: 'fksqlqhl' // Replace with your actual upload preset name
-          }
+            upload_preset: "fksqlqhl",
+          },
         }
       );
 
       if (response.data && response.data.secure_url) {
-        const newUploadedUrls = [...uploadedUrls, response.data.secure_url];
-        setUploadedUrls(newUploadedUrls);
-        console.log('Uploaded URLs:', newUploadedUrls);
-
-        // Clear selected files and preview after successful upload
-        setSelectedFiles([]);
-        setPreviewUrl('');
+        const newUploadedFiles = [
+          ...uploadedFiles,
+          { url: response.data.secure_url, type: file.file.type },
+        ];
+        setUploadedFiles(newUploadedFiles);
+        setFiles([]); // Clear selected files after successful upload
       } else {
-        console.error('Unexpected response format:', response.data);
-        setUploadError('Error: Unexpected response format.');
+        console.error("Unexpected response format:", response.data);
+        setUploadError("Error: Unexpected response format.");
       }
     } catch (error) {
-      if (error.response) {
-        console.error('Server responded with status code:', error.response.status);
-        console.error('Response data:', error.response.data);
-        setUploadError('Error uploading files. Please check the console for details.');
-      } else if (error.request) {
-        console.error('No response received:', error.request);
-        setUploadError('No response received from the server.');
-      } else {
-        console.error('Error setting up the request:', error.message);
-        setUploadError('Error setting up the upload request.');
-      }
+      // Handle upload errors
+      console.error("Error uploading file:", error);
+      setUploadError(
+        "Error uploading files. Please check the console for details."
+      );
     } finally {
       setUploading(false);
     }
   };
 
-  return (
-    <div className="container mx-auto py-8">
-      <div className="max-w-lg mx-auto">
-        <h1 className="text-2xl font-bold mb-4">Upload Files to Cloudinary</h1>
-        {uploadError && <p className="text-red-500 mb-4">{uploadError}</p>}
-        <div className="mb-4">
-          {previewUrl && (
-            <img src={previewUrl} alt="Preview" className="mb-4 max-w-full max-h-60" />
-          )}
-          <input
-            type="file"
-            className="border-gray-300 border p-2 w-full"
-            onChange={handleFileChange}
-            value="" // Reset value attribute to clear input after selection
-          />
-        </div>
-        <div className="mb-4">
-          <button
-            className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}
-            onClick={handleUpload}
-            disabled={uploading || selectedFiles.length === 0}
-          >
-            {uploading ? 'Uploading...' : 'Upload'}
-          </button>
-        </div>
-        {uploadedUrls.length > 0 && (
-          <div className="mb-4">
-            <h2 className="text-lg font-bold mb-2">Uploaded Files:</h2>
-            <ul className="list-disc pl-4">
-              {uploadedUrls.map((url, index) => {
-                const isImage = url.match(/\.(jpeg|jpg|gif|png)$/);
-                const isVideo = url.match(/\.(mp4|webm|ogg)$/);
-                const isPdf = url.match(/\.pdf$/);
+  const handleDelete = (index) => {
+    const updatedFiles = [...uploadedFiles];
+    updatedFiles.splice(index, 1);
+    setUploadedFiles(updatedFiles);
+  };
 
-                return (
-                  <li key={index}>
-                    {isImage ? (
-                      <img src={url} alt={`Uploaded file ${index + 1}`} className="max-w-full max-h-60 mb-2" />
-                    ) : isVideo ? (
-                      <video src={url} controls className="max-w-full max-h-60 mb-2">
-                        Your browser does not support the video tag.
-                      </video>
-                    ) : isPdf ? (
-                      <a href={url} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
-                        View PDF
-                      </a>
-                    ) : (
-                      <a href={url} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
-                        Download File
-                      </a>
-                    )}
-                  </li>
-                );
-              })}
-            </ul>
+  useEffect(() => {
+    if (files.length > 0) {
+      handleUpload(files[0]);
+    }
+  }, [files]);
+
+  return (
+    <div className="w-full bg-white relative shadow-[0px_0px_10px_5px_rgba(0,0,0,0.1)] rounded-md">
+      {showNext ? (
+        <div className="mx-10">
+          <h1 className=" mb-4 mt-2 font-medium text-gray-500">
+            Please upload only color scan copy files
+          </h1>
+          {uploadError && <p className="text-red-500 mb-4">{uploadError}</p>}
+          <div>
+            <div className="mb-4">
+              <FilePond
+                files={files}
+                allowMultiple={true}
+                maxFiles={3}
+                onupdatefiles={setFiles}
+                allowReorder={true}
+                itemInsertLocation="after"
+                labelIdle='Drag & Drop your files or <span class="filepond--label-action w-full">Browse</span>'
+              />
+            </div>
+            {nextError && <p className="text-red-500 mb-4">{nextError}</p>}
+            <button
+              type="button"
+              className="bg-[rgb(115,103,240)] text-white font-bold absolute right-0 bottom-3 py-2 px-5 shadow-[0px_0px_10px_10px_rgba(115,103,240,0.1)] mr-10 rounded"
+              onClick={handleNext}
+            >
+              Next
+            </button>
           </div>
-        )}
-      </div>
+          {uploading && <p>Uploading...</p>}
+          {uploadedFiles.length > 0 && (
+            <div className="mb-4 w-full">
+              <h2 className="text-lg font-bold mb-2">Uploaded Files:</h2>
+              <div className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-4 gap-4 mt-10">
+                {uploadedFiles.map((file, index) => {
+                  const isImage = file.type.startsWith("image/");
+                  const isVideo = file.type.startsWith("video/");
+                  const isPdf = file.type === "application/pdf";
+
+                  return (
+                    <div
+                      key={index}
+                      className="border rounded-lg overflow-hidden shadow-md"
+                    >
+                      <div className="relative">
+                        {isImage && (
+                          <img
+                            src={file.url}
+                            alt={`Uploaded file ${index + 1}`}
+                            className="object-cover w-full h-60"
+                          />
+                        )}
+                        {isVideo && (
+                          <video
+                            src={file.url}
+                            controls
+                            className="object-cover w-full h-60"
+                          >
+                            Your browser does not support the video tag.
+                          </video>
+                        )}
+                        {isPdf && (
+                          <iframe
+                            src={file.url}
+                            className="object-cover w-full h-60"
+                            title={`Uploaded file ${index + 1}`}
+                          />
+                        )}
+                      </div>
+                      <div className="p-4">
+                        <button
+                          onClick={() => handleDelete(index)}
+                          className="block mx-auto bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+      ) : (
+        <StudentForm
+          filteredData={filteredData}
+          studentCountry={studentCountry}
+          uploadedFiles={uploadedFiles}
+        />
+      )}
     </div>
   );
 };
 
-export default FileUploadComponent;
+export default FileUpload;

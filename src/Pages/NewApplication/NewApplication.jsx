@@ -135,9 +135,9 @@ const NewApplication = ({ data, loading, error, onNext }) => {
   }
 
   return (
-    <div className="container mt-10 mx-auto p-10 bg-white shadow-[0px_0px_10px_5px_rgba(0,0,0,0.1)] rounded-md">
+    <div className="container mt-10 mx-auto p-4 md:p-10 bg-white shadow-[0px_0px_10px_5px_rgba(0,0,0,0.1)] rounded-md">
       <h1 className="text-2xl font-bold mb-4">New Application</h1>
-      <div className="grid grid-cols-2 gap-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-10">
         <DropdownInput
           label="Country to Apply"
           options={getCountries(data)}
@@ -170,7 +170,7 @@ const NewApplication = ({ data, loading, error, onNext }) => {
                   <li
                     key={option}
                     onClick={(event) => handleOptionClick(event, option)}
-                    className="cursor-pointer mx-3 my-3  px-3 py-[5px] hover:bg-gray-100 rounded-lg text-gray-500"
+                    className="cursor-pointer mx-3 my-3 px-3 py-[5px] hover:bg-gray-100 rounded-lg text-gray-500"
                   >
                     {option}
                   </li>
@@ -190,7 +190,7 @@ const NewApplication = ({ data, loading, error, onNext }) => {
         />
         <DropdownInput
           label="Course Type"
-          options={[getCourseTypes(data)[1], getCourseTypes(data)[2]]}
+          options={[getCourseTypes(data)[1]]}
           value={selectedFilters.courseType}
           onChange={(value) =>
             setSelectedFilters({ ...selectedFilters, courseType: value })
@@ -219,7 +219,7 @@ const NewApplication = ({ data, loading, error, onNext }) => {
       </div>
       <button
         type="button"
-        className="bg-[#7367f0] mt-10 ml-[95%] text-white py-2 px-4 rounded"
+        className="bg-[#7367f0] mt-10 w-full md:w-auto text-white py-2 px-4 rounded"
         onClick={handleFilterData}
       >
         Next
